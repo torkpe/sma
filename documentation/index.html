@@ -1,0 +1,189 @@
+
+<!doctype html>
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script src="js/lib/energize.js"></script>
+<script src="js/lib/imagesloaded.min.js"></script>
+<script src="js/lib/jquery_ui.js"></script>
+<script src="js/lib/jquery.highlight.js"></script>
+<script src="js/lib/jquery.tocify.js"></script>
+<script src="js/lib/lunr.js"></script>
+    <script src="js/script.js"></script>
+
+    
+  </head>
+
+  <body class>
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png">
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png">
+      
+      
+      <div id="toc">
+      </div>
+      
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>SMS Management Application (SMA) is an API based application used for managing sms among users.</p>
+<h1 id="Contacts"><a href="#Contacts" class="headerlink" title="Contacts"></a>Contacts</h1><h2 id="Add-Contacts"><a href="#Add-Contacts" class="headerlink" title="Add Contacts"></a>Add Contacts</h2><p><code>POST https://us-central1-smsmangement.cloudfunctions.net/sms/contacts</code></p>
+<p>Creates a new contact </p>
+<table>
+<thead>
+<tr>
+<th>Headers</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-type</td>
+<td>application/x-www-form-urlencoded</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>james</td>
+</tr>
+<tr>
+<td>phoneNumber</td>
+<td>1234567</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"response"</span>: <span class="string">"Contact added successfully"</span></span><br><span class="line">&#125;</span><br></code></pre>
+<h2 id="Get-Contacts"><a href="#Get-Contacts" class="headerlink" title="Get Contacts"></a>Get Contacts</h2><p><code>GET https://us-central1-smsmangement.cloudfunctions.net/sms/contacts</code></p>
+<p>GETS all contacts </p>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"response"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"james"</span>,</span><br><span class="line">            <span class="attr">"phoneNumber"</span>: <span class="string">"1882828282"</span>,</span><br><span class="line">            <span class="attr">"key"</span>: <span class="string">"-LdJnXBv4tne_GL2uOJ8"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></code></pre>
+<h2 id="Delete-a-contact"><a href="#Delete-a-contact" class="headerlink" title="Delete a contact"></a>Delete a contact</h2><p><code>DELETE https://us-central1-smsmangement.cloudfunctions.net/sms/contacts/:key/:phoneNumber</code></p>
+<p>Deletes a contact</p>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>phoneNumber</td>
+<td>1882828282</td>
+</tr>
+<tr>
+<td>key</td>
+<td>-LdJnXBv4tne_GL2uOJ8</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"response"</span>: <span class="string">"Contact deleted"</span></span><br><span class="line">&#125;</span><br></code></pre>
+<h1 id="SMS"><a href="#SMS" class="headerlink" title="SMS"></a>SMS</h1><h2 id="Send-SMS"><a href="#Send-SMS" class="headerlink" title="Send SMS"></a>Send SMS</h2><p><code>POST https://us-central1-smsmangement.cloudfunctions.net/sms/send-sms</code></p>
+<p>Send a new message </p>
+<table>
+<thead>
+<tr>
+<th>Headers</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-type</td>
+<td>application/x-www-form-urlencoded</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>senderNumber</td>
+<td>48937834</td>
+</tr>
+<tr>
+<td>phoneNumber</td>
+<td>1234567</td>
+</tr>
+<tr>
+<td>name</td>
+<td>user</td>
+</tr>
+<tr>
+<td>sms</td>
+<td>hello world</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"response"</span>: <span class="string">"Message sent successfully"</span></span><br><span class="line">&#125;</span><br></code></pre>
+<h2 id="Get-received-SMS"><a href="#Get-received-SMS" class="headerlink" title="Get received SMS"></a>Get received SMS</h2><p><code>GET https://us-central1-smsmangement.cloudfunctions.net/sms/get-sms/:phoneNumber</code></p>
+<p>GETS received SMS for a contact</p>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>phoneNumber</td>
+<td>1234567</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"response"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"user"</span>,</span><br><span class="line">            <span class="attr">"phoneNumber"</span>: <span class="string">"1234567"</span>,</span><br><span class="line">            <span class="attr">"senderNumber"</span>: <span class="string">"48937834"</span>,</span><br><span class="line">            <span class="attr">"sms"</span>: <span class="string">"hello world"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></code></pre>
+<h2 id="Get-sent-SMS"><a href="#Get-sent-SMS" class="headerlink" title="Get sent SMS"></a>Get sent SMS</h2><p><code>GET https://us-central1-smsmangement.cloudfunctions.net/sms/get-sent-sms/:phoneNumber</code></p>
+<p>GETS sent SMS for a contact</p>
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>phoneNumber</td>
+<td>48937834</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight json"><span class="line">&#123;</span><br><span class="line">    <span class="attr">"response"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"user"</span>,</span><br><span class="line">            <span class="attr">"phoneNumber"</span>: <span class="string">"1234567"</span>,</span><br><span class="line">            <span class="attr">"senderNumber"</span>: <span class="string">"48937834"</span>,</span><br><span class="line">            <span class="attr">"sms"</span>: <span class="string">"hello world"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></code></pre>
+
+        
+      </div>
+      <div class="dark-box">
+        
+      </div>
+    </div>
+  </body>
+</html>

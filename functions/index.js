@@ -24,6 +24,17 @@ app.post('/send-sms', (request, response) => {
   }).then(() => response.status(201).send({response: 'Message sent successfully'}))
 });
 
+app.post('/contacts', (request, response) => {
+  const {
+    name,
+    phoneNumber
+  } = request.body;
+  admin.database().ref(`contacts`).push({
+    name,
+    phoneNumber
+  }).then(() => response.status(201).send({response: 'Contact added successfully'}))
+});
+
 const getUserMessages = (messages, phoneNumber, isSender) => {
   const arrayOfMessages = [];
   messages.forEach((message) => {
@@ -40,10 +51,25 @@ const getUserMessages = (messages, phoneNumber, isSender) => {
   return arrayOfMessages;
 }
 
+app.get('/contacts', (request, response) => {
+  admin.database().ref('contacts').once('value')
+    .then((contacts) => {
+      const arrayOfContacts = [];
+      contacts.forEach((contact) => {
+        if (!contact.val().isDeleted) {
+          const generatedContact = contact.val()
+          generatedContact.key = contact.key
+          arrayOfContacts.push(generatedContact);
+        }
+      });
+      response.status(200).send({ response: arrayOfContacts })
+    });
+});
+
 app.get('/get-sms/:phoneNumber', (request, response) => {
   admin.database().ref('sms').once('value')
     .then((messages) => {
-      const userMessages = getUserMessages(messages, request.params.phoneNumber, true)
+      const userMessages = getUserMessages(messages, request.params.phoneNumber, false)
       response.status(200).send({response: userMessages.length > 0 ? userMessages : 'No message yet for this number'});
     });
 });
@@ -56,8 +82,11 @@ app.get('/get-sent-sms/:phoneNumber', (request, response) => {
     });
 });
 
-app.delete('/delete-messages/:phoneNumber', (request, response) => {
-  admin.database().ref('sms').once('value')
+app.delete('/contacts/:contactKey/:phoneNumber', (request, response) => {
+  admin.database().ref(`contacts/${request.params.contactKey}`).update({
+    isDeleted: true
+  }).then(() => {
+    admin.database().ref('sms').once('value')
     .then((messages) => {
       messages.forEach((message) => {
         if (message.val().phoneNumber === request.params.phoneNumber
@@ -70,6 +99,7 @@ app.delete('/delete-messages/:phoneNumber', (request, response) => {
       });
       response.status(200).send({response: 'Contact deleted'});
     });
+  })
 });
 
 app.get('*', (request, response) => {
